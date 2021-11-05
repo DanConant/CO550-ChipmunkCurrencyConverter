@@ -1,0 +1,16 @@
+﻿@page
+@model CO550_ChipmunkCurrencyConverter.Pages.IndexModel
+@{
+}
+<h1>Chipmunk Currency Converter</h1>
+
+<h3>Please enter the amount you want to convert: </h3>
+
+<p>EURO: €1.35</p>
+<p>GBP:  £1</p>
+
+<form method="POST">
+    <div>Amount: <input asp-for="inputAmount" /></div> <input type="submit" />
+</form>
+<br />
+<div id="result">@this.Model.outputAmount</div>
