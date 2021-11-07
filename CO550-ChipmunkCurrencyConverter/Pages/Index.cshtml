@@ -4,13 +4,42 @@
 }
 <h1>Chipmunk Currency Converter</h1>
 
-<h3>Current exchange rate: </h3>
-<p>GB: £1</p>
-<p>EURO: €@this.Model.EUR</p>
+<h4>Current exchange rate: </h4>
+<style>
+table {
+  font-family: arial;
+  width:50%;
+}
 
-<h3>Please enter the amount you want to convert: </h3>
+td, th {
+  border: 1px solid #dddddd;
+  text-align: left;
+}
+
+tr:nth-child(even) {
+  background-color: #dddddd;
+}
+</style>
+<table>
+    <tr>
+        <th>Currency</th>
+        <th>Rate</th>
+    </tr>
+    <tr>
+        <td>GBP</td>
+        <td>£1</td>
+    </tr>
+    <tr>
+        <td>EUR</td>
+        <td>€@this.Model.EUR</td>
+
+    </tr>
+</table>
+
+</br>
+<h4>Please enter the amount you want to convert: </h4></br>
 <form method="POST">
-    <div>Amount: <input asp-for="inputAmount" type="number"/></div> <input type="submit" />
+    <div>Amount: £<input asp-for="inputAmount" type="number"/></div> <input type="submit" />
 </form>
 <br />
-<div id="result">€ @this.Model.outputAmount</div>
+<h4>You now have: <div id="result">€ @this.Model.outputAmount</div></h4>

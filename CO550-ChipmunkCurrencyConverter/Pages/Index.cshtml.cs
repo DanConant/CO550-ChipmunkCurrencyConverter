@@ -13,8 +13,6 @@ namespace CO550_ChipmunkCurrencyConverter.Pages
         public string inputAmount;
         public decimal outputAmount;
         public decimal EUR;
-
-
         public void OnGet()
         {
             GetCurrencyRates();
