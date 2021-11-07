@@ -12,8 +12,7 @@ namespace CO550_ChipmunkCurrencyConverter.Pages
     {
         public string inputAmount;
         public decimal outputAmount;
-        public decimal EURO = 1.35M;
-        public decimal GB;
+        public decimal EUR;
 
 
         public void OnGet()
@@ -44,7 +43,7 @@ namespace CO550_ChipmunkCurrencyConverter.Pages
         public void GetCurrencyRates()
         {
             //apikey e26400d0-3e3f-11ec-b40d-7bd419cca186   
-            WebRequest request = WebRequest.Create("https://freecurrencyapi.net/api/v2/latest?apikey=e26400d0-3e3f-11ec-b40d-7bd419cca186&base_currency=EUR");
+            WebRequest request = WebRequest.Create("https://freecurrencyapi.net/api/v2/latest?apikey=e26400d0-3e3f-11ec-b40d-7bd419cca186&base_currency=GBP");
             HttpWebResponse response = (HttpWebResponse)request.GetResponse();
             Console.WriteLine(response.StatusDescription);
             Stream dataStream = response.GetResponseStream();
@@ -53,18 +52,19 @@ namespace CO550_ChipmunkCurrencyConverter.Pages
 
             CurrencyResponse currencyResponse = JsonConvert.DeserializeObject<CurrencyResponse>(responseFromServer);
             Console.WriteLine("this is the currency response: ");
-            Console.WriteLine(currencyResponse.Data["GBP"]);
-            GB = currencyResponse.Data["GBP"];
+            Console.WriteLine(currencyResponse.Data["EUR"]);
+            EUR = currencyResponse.Data["EUR"];
             reader.Close();
             dataStream.Close();
             response.Close();
         }
         public void OnPost()
         {
-            
-                this.inputAmount = Request.Form["inputAmount"];
-                this.outputAmount = Convert.ToDecimal(inputAmount) * EURO;
                 GetCurrencyRates();
+                this.inputAmount = Request.Form["inputAmount"];
+                Console.WriteLine(EUR);
+                this.outputAmount = Convert.ToDecimal(inputAmount) * EUR;
+         
 
             }
 
