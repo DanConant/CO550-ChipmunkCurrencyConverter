@@ -10,9 +10,11 @@ namespace CO550_ChipmunkCurrencyConverter.Pages
 {
     public class IndexModel : PageModel
     {
-        public string inputAmount;
+        public decimal inputAmount;
         public decimal outputAmount;
         public decimal EUR;
+
+
         public void OnGet()
         {
             GetCurrencyRates();
@@ -59,9 +61,9 @@ namespace CO550_ChipmunkCurrencyConverter.Pages
         public void OnPost()
         {
                 GetCurrencyRates();
-                this.inputAmount = Request.Form["inputAmount"];
+                this.inputAmount = Convert.ToDecimal(Request.Form["inputAmount"]);
                 Console.WriteLine(EUR);
-                this.outputAmount = Convert.ToDecimal(inputAmount) * EUR;
+                this.outputAmount = Math.Round((inputAmount * EUR),2);
          
 
             }

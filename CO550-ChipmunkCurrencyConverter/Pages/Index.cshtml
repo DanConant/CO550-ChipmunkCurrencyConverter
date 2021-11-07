@@ -39,7 +39,7 @@ tr:nth-child(even) {
 </br>
 <h4>Please enter the amount you want to convert: </h4></br>
 <form method="POST">
-    <div>Amount: £<input asp-for="inputAmount" type="number"/></div> <input type="submit" />
+    <div>Amount: £<input asp-for="inputAmount" type="number" step=".01"/></div> <input type="submit" />
 </form>
 <br />
 <h4>You now have: <div id="result">€ @this.Model.outputAmount</div></h4>
