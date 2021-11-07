@@ -1,13 +1,10 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.IO;
 using System.Net;
-using System.Text;
-using System.Text.Json;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
+using System.Collections.Generic;
 
 namespace CO550_ChipmunkCurrencyConverter.Pages
 {
@@ -16,15 +13,32 @@ namespace CO550_ChipmunkCurrencyConverter.Pages
         public string inputAmount;
         public decimal outputAmount;
         public decimal EURO = 1.35M;
-        public decimal GBP = 1M;
+        public decimal GB;
+
+
         public void OnGet()
         {
             GetCurrencyRates();
         }
-        public class Currency
+        public class CurrencyResponse
         {
-            public string Query { get; set; }
-            public string Data { get; set; }
+            [JsonProperty("query")]
+            public Query Query { get; set; }
+
+            [JsonProperty("data")]
+            public Dictionary<string, decimal> Data { get; set; }
+        }
+
+        public class Query
+        {
+            [JsonProperty("apikey")]
+            public Guid Apikey { get; set; }
+
+            [JsonProperty("base_currency")]
+            public string BaseCurrency { get; set; }
+
+            [JsonProperty("timestamp")]
+            public long Timestamp { get; set; }
         }
 
         public void GetCurrencyRates()
@@ -36,22 +50,23 @@ namespace CO550_ChipmunkCurrencyConverter.Pages
             Stream dataStream = response.GetResponseStream();
             StreamReader reader = new StreamReader(dataStream);
             string responseFromServer = reader.ReadToEnd();
-            Currency currency1 = JsonSerializer.Deserialize<Currency>(responseFromServer);
-            Console.WriteLine(currency1.Data);
-            //Console.WriteLine(responseFromServer);
-            //Console.WriteLine($"Data: {currency1}");
+
+            CurrencyResponse currencyResponse = JsonConvert.DeserializeObject<CurrencyResponse>(responseFromServer);
+            Console.WriteLine("this is the currency response: ");
+            Console.WriteLine(currencyResponse.Data["GBP"]);
+            GB = currencyResponse.Data["GBP"];
             reader.Close();
             dataStream.Close();
             response.Close();
-            Console.WriteLine(response);
         }
         public void OnPost()
         {
-            {
+            
                 this.inputAmount = Request.Form["inputAmount"];
                 this.outputAmount = Convert.ToDecimal(inputAmount) * EURO;
+                GetCurrencyRates();
+
             }
 
         }
     }
-}
